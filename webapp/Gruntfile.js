@@ -56,7 +56,7 @@ module.exports = function (grunt) {
         files: ['Gruntfile.js']
       },
       bake: {
-        files: ['<%= yeoman.app %>/*.html', '<%= yeoman.app %>/includes/**'],
+        files: ['<%= yeoman.app %>/*.tpl', '<%= yeoman.app %>/includes/**'],
         tasks: 'bake:build'
       },
       livereload: {
@@ -131,6 +131,7 @@ module.exports = function (grunt) {
           src: [
             '.tmp',
             '<%= yeoman.dist %>/*',
+            '<%= yeoman.app %>/*.html',
             '!<%= yeoman.dist %>/.git*'
           ]
         }]
