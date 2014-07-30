@@ -1,0 +1,26 @@
+{
+  "name": "webapp",
+  "version": "0.1.0",
+  "dependencies": {
+    "codemirror": "~4.4.0",
+    "knockoutjs": "~3.1.0",
+    "jquery": "1.11.0"
+  },
+  "homepage": "https://github.com/osallou/mobyle2.viewers",
+  "authors": [
+    "Olivier Sallou <olivier.sallou@irisa.fr>"
+  ],
+  "description": "Mobyle web viewers",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
