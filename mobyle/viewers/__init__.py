@@ -11,10 +11,12 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.renderers import JSON
 import pyramid_beaker
 from bson import json_util
+from mongokit import ObjectId
+
 
 def data_include(config):
     config.add_static_view('static', 'mobyle.web:static')
-    config.add_static_view('type', '../../webapp/app')
+    config.add_static_view('type', '../../webapp/dist')
 
 
 def main(global_config, **settings):
@@ -32,6 +34,9 @@ def main(global_config, **settings):
         mobyle_config.set('app:main', setting, settings[setting])
     # then import connection
     from mobyle.common import connection
+    from mobyle.web.resources import Root
+    from mobyle.web.security import groupFinder
+
 
     config = Configurator(root_factory=Root, settings=global_config)
     config.include(pyramid_beaker)

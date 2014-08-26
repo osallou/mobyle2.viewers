@@ -92,7 +92,7 @@ $( document ).ready(function() {
         $("#oauth_auth").submit();
     });
 
-    $("#redirect_uri").val('http://'+window.location.host);
+    $("#redirect_uri").val(window.location.origin+window.location.pathname);
 
     if(getURLParameter('code')!=undefined) {
         getAccessToken(getURLParameter('code'));

@@ -54,13 +54,18 @@
 
 
 <script>
+
+var editor = null;
+
     $( document ).ready(function() {
         var file = getURLParameter('file');
         var path = getURLParameter('path');
         getFile(file, path);
 
         $("#save").click(function() {
-            console.log(editor.getValue());
+          var file = getURLParameter('file');
+          var path = getURLParameter('path');
+          putFile(file, path);
         });
     });
 
@@ -77,6 +82,27 @@ function getFile(file, path)
   });
 }
 
+function putFile(file, path)
+{
+  var data = new FormData();
+  data.append('msg', 'text edited in viewer');
+  var blob = new Blob([editor.getValue()], { type: 'text/plain'});
+  data.append('file', blob);
+  var server = getURLParameter('server');
+  $.ajax({
+    url: server+'/data-manager/data/'+file+'/upload/'+path,
+    type: 'PUT',
+    data: data,
+    contentType: false,
+    processData: false,
+    datatype: 'text/plain',
+    success: function(data) { alert('File updated on server');  },
+    error: function(jqXHR, textStatus, errorThrown) { alert('Failed! '+errorThrown); },
+    beforeSend: setHeader
+  });
+}
+
+
 function setHeader(xhr)
 {
     xhr.setRequestHeader('Authorization', 'bearer ' + getURLParameter('access_token'));
@@ -85,7 +111,7 @@ function setHeader(xhr)
 function displayFile(data) {
     var mytextarea = $("#fileeditor");
     mytextarea.text(data);
-    var editor = CodeMirror.fromTextArea(mytextarea[0], {
+    editor = CodeMirror.fromTextArea(mytextarea[0], {
                                                mode: "text/plain",
                                                keyMap: "vim",
                                                lineNumbers: true,
