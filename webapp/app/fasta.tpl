@@ -74,6 +74,7 @@ var editor = null;
 
 function getFile(file, path)
 {
+  if(file===undefined) { return; }
   var server = getURLParameter('server');
   $.ajax({
     url: server+'/data-manager/download/'+file+'/'+path,
@@ -87,6 +88,7 @@ function getFile(file, path)
 
 function putFile(file, path)
 {
+  if(file===undefined) { return; }
   var data = new FormData();
   data.append('msg', 'text edited in viewer');
   var blob = new Blob([editor.getValue()], { type: 'text/plain'});
