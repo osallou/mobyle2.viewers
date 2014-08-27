@@ -58,6 +58,9 @@
 var editor = null;
 
     $( document ).ready(function() {
+
+        setInterval(function() { refreshToken($("#server").val());}, 1800);
+
         var file = getURLParameter('file');
         var path = getURLParameter('path');
         getFile(file, path);

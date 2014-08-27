@@ -86,6 +86,9 @@ http://localhost:6544/data-manager/oauth/v2/authorize?response_type=code&state=x
 
 <script>
 $( document ).ready(function() {
+
+    setInterval(function() { refreshToken($("#server").val());}, 1800);
+
     $("#connect").click(function(){
         var auth_url = $("#server").val() + '/data-manager/oauth/v2/authorize';
         $("#oauth_auth").attr("action",auth_url);
