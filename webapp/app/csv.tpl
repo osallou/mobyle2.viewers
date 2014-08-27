@@ -56,7 +56,7 @@
 
     $( document ).ready(function() {
 
-        setInterval(function() { refreshToken($("#server").val());}, 1800);
+        setInterval(function() { refreshToken($("#server").val());}, 1800000);
 
         var file = getURLParameter('file');
         var path = getURLParameter('path');
@@ -88,7 +88,7 @@ function putFile(file, path)
   if(file===undefined) { return; }
   var data = new FormData();
   data.append('msg', 'text edited in viewer');
-  var csv = '';
+  var csv = '#'+$("#csveditor").handsontable("getColHeader").join()+"\n";
   var csvdata = $("#csveditor").data('handsontable').getData();
   for(i=0;i<csvdata.length;i++) {
         csv += csvdata[i].join();
@@ -116,20 +116,24 @@ function setHeader(xhr)
     xhr.setRequestHeader('Authorization', 'bearer ' + getURLParameter('access_token'));
 }
 
-function displayFile(data) {
-    var mycsv = "test1,12,44,4.3333\ntest2,34,55656,0\n";
-    mycsv += "test3;343;32323;1.8\ntest4\t1\t2\t3";
+function displayFile(mycsv) {
     var rows =  mycsv.split("\n");
     var data = [];
+    var tabheader = true;
     var header = new RegExp("^#");
     for(i=0;i<rows.length;i++) {
+        if(header.test(rows[i])){
+            tabheader = rows[i].split(/[,;\t]/);
+            tabheader[0] = tabheader[0].substring(1);
+            continue;
+        }
         var columns = rows[i].split(/[,;\t]/);
         data.push(columns);
     }
     $('#csveditor').handsontable({
            data: data,
            minSpareRows: 1,
-           colHeaders: true,
+           colHeaders: tabheader,
            rowHeaders: true,
            manualColumnMove: true,
            manualColumnResize: true,

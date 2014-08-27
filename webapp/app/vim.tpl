@@ -59,7 +59,7 @@ var editor = null;
 
     $( document ).ready(function() {
 
-        setInterval(function() { refreshToken($("#server").val());}, 1800);
+        setInterval(function() { refreshToken($("#server").val());}, 1800000);
 
         var file = getURLParameter('file');
         var path = getURLParameter('path');
