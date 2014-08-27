@@ -150,14 +150,15 @@ $("body").on("contextmenu", "table tr", function(e) {
    .off('click')
    .data('invokedOn', e.currentTarget)
    .click(function(e) {
-    console.log($($(this).data("invokedOn")).attr('id'));
-    console.log($(e.target).attr('data-viewer'));
+    //console.log($($(this).data("invokedOn")).attr('id'));
+    //console.log($(e.target).attr('data-viewer'));
     $contextMenu.hide();
     var elt = $($(this).data("invokedOn"));
     var file = elt.attr('id');
     var path = elt.attr('path');
     var server = $("#server").val();
-    window.location='vim.html?server='+encodeURI(server)+'&file='+file+'&path='+encodeURI(path)+'&access_token='+getURLParameter('access_token')+'&token_type='+getURLParameter('token_type')+'&expires_in='+getURLParameter('expires_in')+'&email='+getURLParameter('email')+'&refresh_token='+getURLParameter('refresh_token');
+    var filetype = $(e.target).attr('data-viewer');
+    window.location=filetype+'.html?server='+encodeURI(server)+'&file='+file+'&path='+encodeURI(path)+'&access_token='+getURLParameter('access_token')+'&token_type='+getURLParameter('token_type')+'&expires_in='+getURLParameter('expires_in')+'&email='+getURLParameter('email')+'&refresh_token='+getURLParameter('refresh_token');
    });
    return false;
 });
