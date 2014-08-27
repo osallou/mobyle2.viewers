@@ -5,7 +5,8 @@
     "codemirror": "~4.4.0",
     "knockoutjs": "~3.1.0",
     "jquery": "1.11.0",
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "handsontable": "~0.10.5"
   },
   "homepage": "https://github.com/osallou/mobyle2.viewers",
   "authors": [

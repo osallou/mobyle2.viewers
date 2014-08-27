@@ -25,7 +25,9 @@ module.exports = function (grunt) {
         files: {
           // files go here, like so:
           'app/index.html': 'app/base.tpl',
-          'app/vim.html': 'app/vim.tpl'
+          'app/vim.html': 'app/vim.tpl',
+          'app/fasta.html': 'app/fasta.tpl',
+          'app/csv.html': 'app/csv.tpl'
         }
       },
     },
