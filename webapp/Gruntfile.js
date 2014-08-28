@@ -161,7 +161,7 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     'bowerInstall': {
       app: {
-        src: '<%= yeoman.app %>/index.html',
+        src: '<%= yeoman.app %>/*.html',
         ignorePath: '<%= yeoman.app %>/'
       }
     },
@@ -188,7 +188,12 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
+      html: ['<%= yeoman.app %>/index.html',
+                '<%= yeoman.app %>/vim.html',
+                '<%= yeoman.app %>/fasta.html',
+                '<%= yeoman.app %>/csv.html',
+                '<%= yeoman.app %>/phyml.html',
+            ],
       options: {
         dest: '<%= yeoman.dist %>'
       }
@@ -345,7 +350,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'bake:build',
-      'bowerInstall',
+      //'bowerInstall',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -368,7 +373,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'bake:build',
-    'bowerInstall',
+    //'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

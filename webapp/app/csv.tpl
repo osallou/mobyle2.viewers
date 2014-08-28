@@ -6,14 +6,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css styles/vendor.css -->
+    <!-- build:css styles/vendorcsv.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css" />
     <link rel="stylesheet" href="bower_components/handsontable/dist/jquery.handsontable.full.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css({.tmp,app}) styles/app.css -->
+    <!-- build:css({.tmp,app}) styles/appcsv.css -->
     <link rel="stylesheet" href="styles/app.css">
     <!-- endbuild -->
 
@@ -39,7 +39,7 @@
 
 <!--(bake includes/footer.html)-->
 
-<!-- build:js scripts/vendor.js -->
+<!-- build:js scripts/vendorcsv.js -->
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -47,7 +47,7 @@
 <script src="bower_components/handsontable/dist/jquery.handsontable.full.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
-<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<!-- build:js({.tmp,app}) scripts/scriptscsv.js -->
 <script src="scripts/app.js"></script>
 <!-- endbuild -->
 
@@ -60,61 +60,21 @@
 
         var file = getURLParameter('file');
         var path = getURLParameter('path');
-        getFile(file, path);
+        getFile(file, path, displayFile);
 
         $("#save").click(function() {
           var file = getURLParameter('file');
           var path = getURLParameter('path');
-          putFile(file, path);
+          var csv = '#'+$("#csveditor").handsontable("getColHeader").join()+"\n";
+          var csvdata = $("#csveditor").data('handsontable').getData();
+          for(i=0;i<csvdata.length;i++) {
+            csv += csvdata[i].join();
+            csv += "\n";
+          }
+          putFile(file, path, csv);
         });
     });
 
-function getFile(file, path)
-{
-  if(file===undefined) { return; }
-  var server = getURLParameter('server');
-  $.ajax({
-    url: server+'/data-manager/download/'+file+'/'+path,
-    type: 'GET',
-    datatype: 'text/plain',
-    success: function(data) { displayFile(data);  },
-    error: function() { alert('Failed!'); },
-    beforeSend: setHeader
-  });
-}
-
-function putFile(file, path)
-{
-  if(file===undefined) { return; }
-  var data = new FormData();
-  data.append('msg', 'text edited in viewer');
-  var csv = '#'+$("#csveditor").handsontable("getColHeader").join()+"\n";
-  var csvdata = $("#csveditor").data('handsontable').getData();
-  for(i=0;i<csvdata.length;i++) {
-        csv += csvdata[i].join();
-    csv += "\n";
-  }
-  var blob = new Blob([csv], { type: 'text/plain'});
-  data.append('file', blob);
-  var server = getURLParameter('server');
-  $.ajax({
-    url: server+'/data-manager/data/'+file+'/upload/'+path,
-    type: 'PUT',
-    data: data,
-    contentType: false,
-    processData: false,
-    datatype: 'text/plain',
-    success: function(data) { alert('File updated on server');  },
-    error: function(jqXHR, textStatus, errorThrown) { alert('Failed! '+errorThrown); },
-    beforeSend: setHeader
-  });
-}
-
-
-function setHeader(xhr)
-{
-    xhr.setRequestHeader('Authorization', 'bearer ' + getURLParameter('access_token'));
-}
 
 function displayFile(mycsv) {
     var rows =  mycsv.split("\n");
